@@ -71,9 +71,9 @@ function parseStory(rawStory) {
 }
 
 function madLibsEdit(story) {
-  let Madedit = document.querySelector('.madLibsEdit')
+  let madEdit = document.querySelector('.madLibsEdit')
   let p = document.createElement('p')
-  edit.appendChild(p)
+  madEdit.appendChild(p)
 
 }
 
@@ -91,6 +91,6 @@ function madLibsEdit(story) {
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
-  //   madLibsEdit(processedStory)
-  //       madLibsPreview(processedStory)
-  });
+      console.log(processedStory);
+    });
+  
