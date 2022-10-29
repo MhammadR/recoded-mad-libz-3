@@ -27,11 +27,11 @@
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
 function parseStory(rawStory) { 
-  const adj = /\[a\]/
+  const a = /\[a\]/
   const n = /\[n\]/
-  const verb = /\[v\]/
+  const v = /\[v\]/
   const dot = /[.]/g
-  const comma = /[,] /g
+  const com = /[,] /g
 
   const newArray = [] //creating a new array for results
   
@@ -42,12 +42,12 @@ function parseStory(rawStory) {
       obj['word'] = str.slice(0, str.length - 3)
       obj['pos'] = 'noun'
       newArray.push(obj)
-  } else if (verb.test(str)) {
+  } else if (v.test(str)) {
       const obj = {}
       obj['word'] = str.slice(0, str.length - 3)
       obj['pos'] = 'verb'
       newArray.push(obj)
-  } else if (adj.test(str)) {
+  } else if (a.test(str)) {
       const obj = {}
       obj['word'] = str.slice(0, str.length - 3)
       obj['pos'] = 'adj'
@@ -56,7 +56,7 @@ function parseStory(rawStory) {
       const obj = {}
       obj['word'] = str
       newArray.push(obj)
-  } else if (comma.test(str)) {
+  } else if (com.test(str)) {
       const obj = {}
       obj['word'] = str
       newArray.push(obj)
