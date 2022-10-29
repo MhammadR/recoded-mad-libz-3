@@ -26,9 +26,55 @@
  * There are multiple ways to do this, but you may want to use regular expressions.
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
-function parseStory(rawStory) {
-  // Your code here.
-  return {}; // This line is currently wrong :)
+function parseStory(rawStory) { 
+  const adj = /\[a\]/
+  const n = /\[n\]/
+  const verb = /\[v\]/
+  const dot = /[.]/g
+  const comma = /[,] /g
+
+  const newArray = [] //creating a new array for results
+  
+  const splitArray = rawStory.split(" ") // splitting the text into separate words
+  splitArray.forEach((str) => {
+    if (n.test(str)) {
+      const obj = {}
+      obj['word'] = str.slice(0, str.length - 3)
+      obj['pos'] = 'noun'
+      newArray.push(obj)
+  } else if (verb.test(str)) {
+      const obj = {}
+      obj['word'] = str.slice(0, str.length - 3)
+      obj['pos'] = 'verb'
+      newArray.push(obj)
+  } else if (adj.test(str)) {
+      const obj = {}
+      obj['word'] = str.slice(0, str.length - 3)
+      obj['pos'] = 'adj'
+      newArray.push(obj)
+  } else if (dot.test(str)) {
+      const obj = {}
+      obj['word'] = str
+      newArray.push(obj)
+  } else if (comma.test(str)) {
+      const obj = {}
+      obj['word'] = str
+      newArray.push(obj)
+  } else {
+      const obj = {}
+      obj['word'] = str
+      newArray.push(obj)
+  }
+})
+  console.log(newArray)
+  return newArray  
+}
+
+function madLibsEdit(story) {
+  let Madedit = document.querySelector('.madLibsEdit')
+  let p = document.createElement('p')
+  edit.appendChild(p)
+
 }
 
 /**
@@ -45,5 +91,6 @@ function parseStory(rawStory) {
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
-    console.log(processedStory);
+  //   madLibsEdit(processedStory)
+  //       madLibsPreview(processedStory)
   });
