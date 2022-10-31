@@ -26,55 +26,33 @@
  * There are multiple ways to do this, but you may want to use regular expressions.
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
-function parseStory(rawStory) { 
-  const a = /\[a\]/
-  const n = /\[n\]/
-  const v = /\[v\]/
-  const dot = /[.]/g
-  const com = /[,] /g
-
-  const newArray = [] //creating a new array for results
-  
-  const splitArray = rawStory.split(" ") // splitting the text into separate words
-  splitArray.forEach((str) => {
-    if (n.test(str)) {
-      const obj = {}
-      obj['word'] = str.slice(0, str.length - 3)
-      obj['pos'] = 'noun'
-      newArray.push(obj)
-  } else if (v.test(str)) {
-      const obj = {}
-      obj['word'] = str.slice(0, str.length - 3)
-      obj['pos'] = 'verb'
-      newArray.push(obj)
-  } else if (a.test(str)) {
-      const obj = {}
-      obj['word'] = str.slice(0, str.length - 3)
-      obj['pos'] = 'adj'
-      newArray.push(obj)
-  } else if (dot.test(str)) {
-      const obj = {}
-      obj['word'] = str
-      newArray.push(obj)
-  } else if (com.test(str)) {
-      const obj = {}
-      obj['word'] = str
-      newArray.push(obj)
-  } else {
-      const obj = {}
-      obj['word'] = str
-      newArray.push(obj)
-  }
-})
-  console.log(newArray)
-  return newArray  
-}
-
-function madLibsEdit(story) {
-  let madEdit = document.querySelector('.madLibsEdit')
-  let p = document.createElement('p')
-  madEdit.appendChild(p)
-
+function parseStory(rawStory) {
+  const pattern = /(\w+\[[nva]\])|[.,]|\w+[^\[.\]\s]/g;
+  const storyArray = rawStory.match(pattern);
+  const nounPattern = /\[n\]/;
+  const verbPattern = /\[v\]/;
+  const adjectivePattern = /\[a\]/;
+  const parsedStory = [];
+  storyArray.forEach((str) => {
+    const obj = {};
+    if (nounPattern.test(str)) {
+      obj["word"] = str.slice(0, str.length - 3);
+      obj["pos"] = "noun";
+      parsedStory.push(obj);
+    } else if (verbPattern.test(str)) {
+      obj["word"] = str.slice(0, str.length - 3);
+      obj["pos"] = "verb";
+      parsedStory.push(obj);
+    } else if (adjectivePattern.test(str)) {
+      obj["word"] = str.slice(0, str.length - 3);
+      obj["pos"] = "adj";
+      parsedStory.push(obj);
+    } else {
+      obj["word"] = str;
+      parsedStory.push(obj);
+    }
+  });
+  return parsedStory;
 }
 
 /**
@@ -88,9 +66,30 @@ function madLibsEdit(story) {
  *
  * You'll want to use the results of parseStory() to display the story on the page.
  */
+
+function updateValue(e, index) {
+  const previewAnchor = document.querySelector(`.anchor${index}`);
+  previewAnchor.textContent = e.target.value;
+  if (e.key === "Enter") {
+    if (e.target.nextElementSibling) e.target.nextElementSibling.focus();
+  }
+}
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
-      console.log(processedStory);
+    const editContainer = document.querySelector(".madLibsEdit");
+    const previewContainer = document.querySelector(".madLibsPreview");
+    const p = document.createElement("p");
+    const pPreview = document.createElement("p");
+    processedStory.map((obj, index) => {
+      if ("pos" in obj) {
+        p.innerHTML += ` <input type="text" maxlength="20" placeholder="(${obj.pos})" id="input${index}" onkeydown="updateValue(event, ${index})"/>`;
+        pPreview.innerHTML += ` <a href="#input${index}" class="anchor${index}">(${obj.pos})</a>`;
+      } else {
+        p.innerHTML += " " + obj.word;
+        pPreview.innerHTML += " " + obj.word;
+      }
     });
-  
+    editContainer.append(p);
+    previewContainer.append(pPreview);
+  });
