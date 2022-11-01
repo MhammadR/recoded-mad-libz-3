@@ -27,7 +27,7 @@
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
 function parseStory(rawStory) {
-  const pattern = /(\w+\[[nva]\])|[.,]|\w+[^\[.\]\s]/g;
+  const pattern = /(\w+\[[nva]\])|[.,]|\w+/g;
   const storyArray = rawStory.match(pattern);
   const nounPattern = /\[n\]/;
   const verbPattern = /\[v\]/;
