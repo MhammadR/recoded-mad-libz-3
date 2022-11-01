@@ -1,3 +1,113 @@
-/**
- * Your CSS goes here.
- */
+:root {
+  --primary: #bfe9ff;
+  --secondary: #ff6e7f;
+  --font-family-header: "Akaya Telivigala", cursive;
+  --font-family: "Roboto", sans-serif;
+}
+
+html {
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font-family: var(--font-family);
+  line-height: 1.3;
+  color: black;
+  background: var(--secondary); /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    var(--primary),
+    var(--secondary)
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  height: 100vh;
+  min-height: fit-content;
+}
+
+.container {
+  background-color: transparent;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
+  padding: 1rem 0.5rem 0;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  font-family: var(--font-family-header);
+  margin-bottom: 0.5rem;
+}
+
+main > div {
+  background-color: #fff;
+  height: fit-content;
+  min-height: 25vh;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+main > div:first-child {
+  margin-bottom: 2rem;
+}
+
+main > div > p {
+  padding: 0.5rem;
+  text-align: justify;
+}
+
+input {
+  background-color: var(--primary);
+  border: 2px solid var(--secondary);
+  border-radius: 0.5rem;
+  font-weight: 700;
+  color: #153648;
+  text-align: center;
+}
+
+input:focus {
+  outline: 2px solid #42248f;
+}
+
+a {
+  text-decoration: none;
+  color: #1a4962;
+  font-weight: 700;
+}
+
+@media only screen and (min-width: 600px) {
+  body {
+    padding: 1rem 0;
+  }
+
+  .container {
+    width: 60vw;
+    height: 100%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
+  main > div {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+}
