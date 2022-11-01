@@ -69,9 +69,31 @@ function parseStory(rawStory) {
 
 function updateValue(e, index) {
   const previewAnchor = document.querySelector(`.anchor${index}`);
-  previewAnchor.textContent = e.target.value;
+  const input = e.target;
+  previewAnchor.textContent = input.value;
+  input.style.borderColor = "#bfe9ff";
+  input.style.backgroundColor = "#ff6e7f";
+  localStorage.setItem(`input${index}`, input.value);
+  if (input.value === "") {
+    previewAnchor.textContent = input.getAttribute("placeholder");
+    input.style.backgroundColor = "#bfe9ff";
+    input.style.borderColor = "#ff6e7f";
+    localStorage.removeItem(`input${index}`);
+  }
   if (e.key === "Enter") {
-    if (e.target.nextElementSibling) e.target.nextElementSibling.focus();
+    if (input.nextElementSibling) input.nextElementSibling.focus();
+  }
+}
+
+function loadValues(i) {
+  if (localStorage.getItem(`input${i}`)) {
+    const input = document.getElementById(`input${i}`);
+    previewAnchor = document.querySelector(`.anchor${i}`);
+    input.setAttribute("value", localStorage.getItem(`input${i}`));
+    previewAnchor.textContent = input.value;
+
+    input.style.borderColor = "#bfe9ff";
+    input.style.backgroundColor = "#ff6e7f";
   }
 }
 getRawStory()
@@ -81,15 +103,22 @@ getRawStory()
     const previewContainer = document.querySelector(".madLibsPreview");
     const p = document.createElement("p");
     const pPreview = document.createElement("p");
-    processedStory.map((obj, index) => {
-      if ("pos" in obj) {
-        p.innerHTML += ` <input type="text" maxlength="20" placeholder="(${obj.pos})" id="input${index}" onkeydown="updateValue(event, ${index})"/>`;
-        pPreview.innerHTML += ` <a href="#input${index}" class="anchor${index}">(${obj.pos})</a>`;
-      } else {
-        p.innerHTML += " " + obj.word;
-        pPreview.innerHTML += " " + obj.word;
+    for (let i = 0; i < processedStory.length; i++) {
+      const obj = processedStory[i];
+      if (i !== 0 && obj.word !== "." && obj.word !== ",") {
+        p.innerHTML += " ";
+        pPreview.innerHTML += " ";
       }
-    });
-    editContainer.append(p);
-    previewContainer.append(pPreview);
+      if ("pos" in obj) {
+        p.innerHTML += `<input type="text" maxlength="20" placeholder="(${obj.pos})" id="input${i}" onkeyup="updateValue(event, ${i})"/>`;
+        pPreview.innerHTML += `<a href="#input${i}" class="anchor${i}">(${obj.pos})</a>`;
+
+        loadValues(i);
+      } else {
+        p.innerHTML += obj.word;
+        pPreview.innerHTML += obj.word;
+      }
+      editContainer.append(p);
+      previewContainer.append(pPreview);
+    }
   });
